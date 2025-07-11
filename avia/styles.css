@@ -499,6 +499,10 @@ body {
     height: 300px;
 }
 
+.start-button.small {
+  transform: scale(0.7);
+}
+
 /* Прогресс-бар анализа */
 .analysis-progress {
     position: fixed;

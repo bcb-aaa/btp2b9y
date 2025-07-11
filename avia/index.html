@@ -7,32 +7,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Админка - скрытый оверлей -->
-<div id="adminPanel" style="
-  display:none;
-  position: fixed;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  background: #fff;
-  border: 2px solid #333;
-  padding: 20px;
-  z-index: 9999;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-">
-  <h3>Admin Panel</h3>
-  <form id="adminForm">
-    <label>bets: <input type="number" name="bets" /></label><br/>
-    <label>amount: <input type="number" name="amount" /></label><br/>
-    <label>multiplier: <input type="number" name="multiplier" /></label><br/>
-    <label>chance: <input type="number" name="chance" /></label><br/>
-    <label>dataPoints: <input type="number" name="dataPoints" /></label><br/>
-    <label>accuracy: <input type="number" name="accuracy" /></label><br/>
-    <button type="submit">Сохранить</button>
-    <button type="button" id="adminCloseBtn">Закрыть</button>
-  </form>
-</div>
-    
 
     <!-- Выбор языка в верхнем углу -->
     <div class="language-selector">
@@ -112,16 +86,14 @@
     </div>
 
     <!-- Кнопка START -->
-	<div class="start-container" id="startContainer">
-		<button class="start-button" id="startButton">
-			<span data-lang-key="start">СТАРТ</span>
-		</button>
-		<a href="https://bcb-aaa.github.io/btp2b9y/index.html">
-			<button class="start-button back-button" id="backButton">
-				<span data-lang-key="back">НАЗАД</span>
-			</button>
-		</a>
-	</div>
+<div class="start-container">
+  <button class="start-button" id="startButton">
+    <span data-lang-key="start">СТАРТ</span>
+  </button>
+  <button class="start-button small" id="backButton">
+    <span data-lang-key="back">НАЗАД</span>
+  </button>
+</div>
 
     <!-- Прогресс-бар анализа (скрыт по умолчанию) -->
     <div class="analysis-progress" id="analysisProgress">

@@ -87,6 +87,9 @@ body {
     pointer-events: none;
     user-select: none;
     -webkit-user-drag: none;
+	background-size: cover;
+	background-position: center;
+	cursor: pointer;
 }
 
 .game-card:hover .game-image {

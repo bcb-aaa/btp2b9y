@@ -93,6 +93,14 @@
   } else {
     window.location.href = url;
   }
+  
+  document.querySelectorAll('img.trophy-icon, img.lang-flag').forEach(img => {
+  img.setAttribute('draggable', 'false'); // запретить перетаскивание
+
+  img.addEventListener('contextmenu', e => e.preventDefault()); // запретить правый клик
+  img.addEventListener('mousedown', e => e.preventDefault());   // запретить зажатие
+  img.addEventListener('touchstart', e => e.preventDefault());  // запретить долгий тап
+});
 }</script>
 </body>
 </html>

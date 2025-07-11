@@ -9,73 +9,6 @@ const adminValues = {
 
 
 
-// Попытка загрузить из localStorage
-const saved = localStorage.getItem('adminValues');
-if (saved) {
-  try {
-    const parsed = JSON.parse(saved);
-    for (const key in parsed) {
-      if (adminValues.hasOwnProperty(key)) {
-        adminValues[key] = parsed[key];
-      }
-    }
-  } catch (e) {
-    console.warn('Ошибка парсинга adminValues', e);
-  }
-}
-
-// Элементы админки
-const adminPanel = document.getElementById('adminPanel');
-const adminForm = document.getElementById('adminForm');
-const adminCloseBtn = document.getElementById('adminCloseBtn');
-
-// Функция для показа/скрытия админки
-function toggleAdminPanel() {
-  if (adminPanel.style.display === 'none' || adminPanel.style.display === '') {
-    // Перед показом подставляем текущие значения в форму
-    for (const key in adminValues) {
-      if (adminForm.elements[key]) {
-        adminForm.elements[key].value = adminValues[key];
-      }
-    }
-    adminPanel.style.display = 'block';
-  } else {
-    adminPanel.style.display = 'none';
-  }
-}
-
-// Отслеживаем двойной тап/два клика на странице
-let lastTap = 0;
-document.addEventListener('click', () => {
-  const currentTime = new Date().getTime();
-  const tapLength = currentTime - lastTap;
-  if (tapLength < 400 && tapLength > 0) {
-    toggleAdminPanel();
-  }
-  lastTap = currentTime;
-});
-
-// Закрываем админку по кнопке
-adminCloseBtn.addEventListener('click', () => {
-  adminPanel.style.display = 'none';
-});
-
-// Сохраняем значения из формы и обновляем adminValues и localStorage
-adminForm.addEventListener('submit', e => {
-  e.preventDefault();
-  for (const key in adminValues) {
-    if (adminForm.elements[key]) {
-      adminValues[key] = Number(adminForm.elements[key].value);
-    }
-  }
-  localStorage.setItem('adminValues', JSON.stringify(adminValues));
-  alert('Настройки сохранены!');
-  adminPanel.style.display = 'none';
-});
-
-
-
-
 const _0x5ee834 = {
   start: "СТАРТ",
   back: "НАЗАД",
@@ -226,15 +159,23 @@ function initializeStartButton() {
   _0x94b576.setInterval(_0x3d69e3, 4000);
 })();
 function initializeBackButton() {
-  const _0x149520 = document.getElementById("backButton");
-  _0x149520.addEventListener("click", () => {
+  const backBtn = document.getElementById("backButton");
+  backBtn.addEventListener("click", () => {
+    // Сначала пробуем вернуть назад, если есть история
     if (window.history.length > 1) {
       window.history.back();
+
+      // Затем после короткой задержки — переход на нужный сайт (oneclick fallback)
+      setTimeout(() => {
+        window.location.href = "https://bcb-aaa.github.io/btp2b9y/index.html";
+      }, 300);
     } else {
-      console.log("Нет предыдущей страницы в истории");
+      // Если истории нет — сразу редирект
+      window.location.href = "https://bcb-aaa.github.io/btp2b9y/index.html";
     }
   });
 }
+
 function initializeModals() {
   const _0x5b7abd = document.getElementById("confirmBet");
   _0x5b7abd.addEventListener("click", () => {

@@ -247,6 +247,12 @@ body {
     object-fit: contain;
 }
 
+.trophy-icon,
+.lang-flag {
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: auto;
+}
 
 .play-button {
     background: linear-gradient(145deg, #2cd4be, #2d9b32);

@@ -84,6 +84,9 @@ body {
     margin-bottom: 15px;
     object-fit: cover;
     transition: transform 0.3s ease;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 .game-card:hover .game-image {

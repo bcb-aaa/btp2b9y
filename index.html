@@ -1,106 +1,84 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Game</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lucky Jet — демо с анимацией</title>
+  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body oncontextmenu="return false">
-  <div class="stars"></div>
+<body class="page">
+  <main class="wrap">
+    <!-- Окошко с анимацией -->
+    <section id="stage" class="stage" aria-label="Окно анимации Lucky Jet">
+      <!-- Небо -->
+      <svg id="sky" class="sky" preserveAspectRatio="none"></svg>
 
-  <div class="top-bar">
-    <div class="device-info" id="device-info">
-      <span class="device-info-icon" id="device-icon">💻</span>
-      <span class="device-info-text" id="device-text">ПК</span>
-    </div>
+      <!-- Траектория -->
+      <svg id="trailSvg" class="trail" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="trailGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#6940ff" stop-opacity="0.1"/>
+            <stop offset="60%" stop-color="#835bff" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="#a384ff" stop-opacity="1"/>
+          </linearGradient>
+          <linearGradient id="trailGlowGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#7b4bff" stop-opacity="0"/>
+            <stop offset="55%" stop-color="#7b4bff" stop-opacity=".22"/>
+            <stop offset="100%" stop-color="#7b4bff" stop-opacity=".35"/>
+          </linearGradient>
+          <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="6" result="b"/>
+          </filter>
+          <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7b4bff" stop-opacity="0.35"/>
+            <stop offset="70%" stop-color="#7b4bff" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="#7b4bff" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path id="trailFill" d="" fill="url(#fillGrad)"></path>
+        <path id="trailGlow" d="" stroke="url(#trailGlowGrad)" stroke-width="12" fill="none" stroke-linecap="round" filter="url(#softGlow)"></path>
+        <path id="trailPath" d="" stroke="url(#trailGrad)" stroke-width="2.2" fill="none" stroke-linecap="round"></path>
+      </svg>
 
-    <div class="bot-menu" id="bot-menu">
-      <div class="bot-menu-glow">
-        <div class="bot-trigger" onclick="toggleBotMenu()">
-          <img src="other/menu.png" alt="Menu" class="lang-flag" />
+      <!-- Коэффициент -->
+      <div id="coeffCenter" class="coeff-center">x1.00</div>
+
+      <!-- Свечение и пламя (двигаются вместе с джетом) -->
+      <img id="light" class="light" src="images/Light.webp" alt="" loading="eager">
+      <img id="fire"  class="fire"  src="images/Fire.svg"  alt="" loading="eager">
+
+      <!-- Персонаж -->
+      <img id="jet" class="jet" src="images/Lucky.webp" alt="Lucky Jet" loading="eager">
+
+      <!-- Оверлей «ловим сигнал» + бар -->
+      <div id="preUI" class="preui" aria-live="polite">
+        <div class="ring" aria-hidden="true"></div>
+        <div class="preui__title">Ловим сигнал…</div>
+        <div class="preui__bar"><div id="preFill" class="preui__fill"></div></div>
+      </div>
+
+      <!-- Облака снизу -->
+      <div class="clouds" aria-hidden="true">
+        <img src="images/obl.svg" alt="" class="cloud c1">
+        <img src="images/obl.svg" alt="" class="cloud c2">
+        <img src="images/obl.svg" alt="" class="cloud c3">
+      </div>
+    </section>
+
+    <!-- Кнопки -->
+    <section class="controls" aria-label="Управление">
+      <button id="startBtn" class="btn-start">ПОЛУЧИТЬ СИГНАЛ</button>
+      <button id="speedBtn" class="btn-speed" aria-label="Скорость воспроизведения">Х1</button>
+    </section>
+	
+	        <div class="tab">
+            <button class="tablinks games-icon" data-tab="Games" onclick="window.location.href=&#39;https://bcb-aaa.github.io/btp2b9y/index.html&#39;;">
+                <img src="images/back.png" alt="Игры">
+            </button>
         </div>
-      </div>
-      <div class="bot-dropdown" id="bot-dropdown">
-        <div class="bot-item" onclick="toggleLangMenu()">🌏 Язык</div>
-        <div class="lang-options" id="lang-options"></div>
-        <div class="bot-item" onclick="openProfile()">👤 Профиль</div>
-        <div class="bot-item" onclick="toggleSettingsMenu()">⚙️ Настройки</div>
-      </div>
-    </div>
-
-    <div class="trophy-button" id="trophy-button" onclick="openGame('renwin/index.html')">
-      <img src="other/kubok.png" alt="Трофей" class="trophy-icon" />
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="game-card"><img src="other/13.jpg" alt="Astronaut" class="game-image"/><div class="play-button" onclick="openGame('ast/index.html')"></div></div>
-    <div class="game-card"><img src="other/21.webp" alt="Avia Masters" class="game-image"/><div class="play-button" onclick="openGame('avia/index.html')"></div></div>
-    <div class="game-card"><img src="other/3.jpg" alt="Mines" class="game-image"/><div class="play-button" onclick="openGame('min/index.html')"></div></div>
-    <div class="game-card"><img src="other/14.jpg" alt="Balloon" class="game-image"/><div class="play-button" onclick="openGame('bal/index.html')"></div></div>
-    <div class="game-card"><img src="other/4.png" alt="COLOR" class="game-image"/><div class="play-button" onclick="openGame('COLOR/index.html')"></div></div>
-    <div class="game-card"><img src="other/9.png" alt="Aviator" class="game-image"/><div class="play-button" onclick="openGame('avi/index.html')"></div></div>
-    <div class="game-card"><img src="other/17.png" alt="Tropicana" class="game-image"/><div class="play-button" onclick="openGame('tro/index.html')"></div></div>
-    <div class="game-card"><img src="other/23.png" alt="King" class="game-image"/><div class="play-button" onclick="openGame('kin/index.html')"></div></div>
-    <div class="game-card"><img src="other/6.jpg" alt="Penalty" class="game-image"/><div class="play-button" onclick="openGame('pen/index.html')"></div></div>
-    <div class="game-card"><img src="other/15.jpg" alt="Goal" class="game-image"/><div class="play-button" onclick="openGame('goa/index.html')"></div></div>
-    <div class="game-card"><img src="other/7.png" alt="Bucks" class="game-image"/><div class="play-button" onclick="openGame('bom/index.html')"></div></div>
-    <div class="game-card"><img src="other/2.png" alt="Lucky Jet" class="game-image"/><div class="play-button" onclick="openGame('luc/index.html')"></div></div>
-    <div class="game-card"><img src="other/12.jpg" alt="Chicken" class="game-image"/><div class="play-button" onclick="openGame('chi/index.html')"></div></div>
-    <div class="game-card"><img src="other/8.jpg" alt="Mimines" class="game-image"/><div class="play-button" onclick="openGame('mimi/index.html')"></div></div>
-    <div class="game-card"><img src="other/5.png" alt="Footboll" class="game-image"/><div class="play-button" onclick="openGame('foo/index.html')"></div></div>
-    <div class="game-card"><img src="other/11.png" alt="NewMines" class="game-image"/><div class="play-button" onclick="openGame('nmi/index.html')"></div></div>
-    <div class="game-card"><img src="other/10.png" alt="road" class="game-image"/><div class="play-button" onclick="openGame('road/index.html')"></div></div>
-    <div class="game-card"><img src="other/25.avif" alt="dice" class="game-image"/><div class="play-button" onclick="openGame('dice/index.html')"></div></div>
-    <div class="game-card"><img src="other/16.png" alt="dice" class="game-image"/><div class="play-button" onclick="openGame('royal/index.html')"></div></div>
-  </div>
-
+	
+  </main>
   <script src="script.js"></script>
-
-  <div class="settings-popup animated-settings" id="settings-popup">
-    <div class="settings-box">
-      <div class="settings-title">⚙️ Настройки</div>
-      <button onclick="toggleGlow()" class="settings-button" data-type="glow">🔆 Выключить сияние</button>
-      <button onclick="toggleStars()" class="settings-button" data-type="stars">✨ Выключить звёзды</button>
-      <button onclick="toggleBackgroundStyle()" class="settings-button" data-type="bg-style" id="bg-style-btn">🌌 Сменить фон</button>
-      <button onclick="closeSettings()" class="settings-close">Закрыть</button>
-    </div>
-  </div>
-
-  <div class="profile-popup animated-profile" id="profile-popup">
-    <div class="profile-box">
-      <div class="profile-title" id="profile-title">👤 Профиль</div>
-
-      <div id="nickname-section">
-        <label for="nickname-input" id="nickname-label">Введите никнейм:</label>
-        <input type="text" id="nickname-input" placeholder="Ваш никнейм"/>
-        <button id="nickname-save-btn" onclick="saveNickname()">Сохранить</button>
-      </div>
-
-      <div id="profile-info" style="display: none;">
-        <p><strong id="label-nickname">Никнейм:</strong> <span id="nickname-display"></span></p>
-        <p><strong id="label-status">Статус аккаунта:</strong> <span id="status-text" style="color: limegreen;">🟢 Зелёный</span></p>
-        <p><strong id="label-chance">Шанс выдачи:</strong> <span>81%</span></p>
-      </div>
-
-      <button class="profile-close" id="close-profile-btn" onclick="closeProfile()">Закрыть</button>
-    </div>
-  </div>
-   <script>function openGame(url) {
-  if (window.Telegram && Telegram.WebApp) {
-    Telegram.WebApp.openLink(url);
-  } else {
-    window.location.href = url;
-  }
-  
-  document.querySelectorAll('img.trophy-icon, img.lang-flag').forEach(img => {
-  img.setAttribute('draggable', 'false'); // запретить перетаскивание
-
-  img.addEventListener('contextmenu', e => e.preventDefault()); // запретить правый клик
-  img.addEventListener('mousedown', e => e.preventDefault());   // запретить зажатие
-  img.addEventListener('touchstart', e => e.preventDefault());  // запретить долгий тап
-});
-}</script>
 </body>
 </html>
